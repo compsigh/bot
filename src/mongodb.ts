@@ -19,7 +19,8 @@ await mongoClient.db('admin').command({ ping: 1 });
 console.log('Connected to MongoDB');
 
 // Collections
-let petfaadilCollection = mongoClient.db('petfaadil').collection('petfaadil');
+const petfaadilCollection = mongoClient.db('petfaadil').collection('petfaadil');
+const workingonBans = mongoClient.db('workingon').collection('bans');
 
 /** Updates the petcount in the database with petcount. */
 export async function updatePetCount(petcount: number) {
@@ -45,4 +46,26 @@ export async function getPetCount() {
         throw new Error();
     }
     return res.petcount;
+}
+
+/** Bans the user with bannedUserId from using the /workingon command. bannedByUserId is the userId of the user who did the ban. */
+export async function addBannedUser(bannedUserId: string, bannedByUserId: string) {
+    if (!workingonBans)
+        throw new Error('Failed to connect to database.')
+
+    await workingonBans.insertOne({
+        bannedUserId: bannedUserId,
+        bannedByUserId: bannedByUserId
+    });
+}
+
+/** Returns if the user with the given userId is banned from using the /workingon command. */
+export async function isBanned(userId: string) {
+    if (!workingonBans)
+        throw new Error('Failed to connect to database.')
+
+    const filter = { bannedUserId: userId };
+    const res = await workingonBans.findOne(filter);
+
+    return res != null;
 }
