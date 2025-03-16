@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, GuildMember, SlashCommandBuilder } from 'discord.js';
 
-const API_URL = 'http://localhost:3000/api/marquee'; // TODO: update when api makes it to prod
+const API_URL = 'https://compsigh.club/api/marquee';
 
 const workingonCommand = {
     data: new SlashCommandBuilder()
