@@ -4,14 +4,12 @@ import { getCommand, registerGlobalCommands } from './commands.js';
 
 // Check for env variables
 const token = process.env.DISCORD_TOKEN;
-const appId = process.env.APP_ID;
 if (!token)
     throw new Error('Missing env variable DISCORD_TOKEN');
-if (!appId)
-    throw new Error('Missing env variable APP_ID');
 
 // Register commands
-await registerGlobalCommands(token, appId);
+const applicationId = '1307982573066125354';
+await registerGlobalCommands(token, applicationId);
 
 // Whitelist
 const whitelistedGuilds = new Set<string>();
