@@ -1,13 +1,13 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-import { addBan, isBanned } from '../mongodb.js';
+import { addBan, isBanned, removeBan } from '../mongodb.js';
 
-const workingonBanCommand = {
+const workingonUnbanCommand = {
     data: new SlashCommandBuilder()
-        .setName('workingon-ban')
-        .setDescription('Bans the user from using the /workingon command.')
+        .setName('workingon-unban')
+        .setDescription('Unbans the user from using the /workingon command.')
         .addUserOption(option =>
             option.setName('user')
-                .setDescription('The user who you want to ban')
+                .setDescription('The user who you want to unban')
                 .setRequired(true)
         ),
 
@@ -21,18 +21,18 @@ const workingonBanCommand = {
             return;
         }
         const bannedUserId = bannedUser.id;
-        const bannedByUserId = interaction.user.id;
 
         // Add to database
         if (await isBanned(bannedUserId)) {
-            await interaction.editReply(`<@${bannedByUserId}> is already banned.`);
+            removeBan(bannedUserId);
+        } else {
+            await interaction.editReply(`<@${bannedUserId}> isn't banned.`);
             return;
         }
-        addBan(bannedUserId, bannedByUserId);
 
         // Success message
-        await interaction.editReply(`Banned <@${bannedUserId}> from using \`/workingon\``);
+        await interaction.editReply(`Unbanned <@${bannedUserId}> from using \`/workingon\``);
     },
 };
 
-export default workingonBanCommand;
+export default workingonUnbanCommand;

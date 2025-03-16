@@ -48,17 +48,6 @@ export async function getPetCount() {
     return res.petcount;
 }
 
-/** Bans the user with bannedUserId from using the /workingon command. bannedByUserId is the userId of the user who did the ban. */
-export async function addBannedUser(bannedUserId: string, bannedByUserId: string) {
-    if (!workingonBans)
-        throw new Error('Failed to connect to database.')
-
-    await workingonBans.insertOne({
-        bannedUserId: bannedUserId,
-        bannedByUserId: bannedByUserId
-    });
-}
-
 /** Returns if the user with the given userId is banned from using the /workingon command. */
 export async function isBanned(userId: string) {
     if (!workingonBans)
@@ -68,4 +57,24 @@ export async function isBanned(userId: string) {
     const res = await workingonBans.findOne(filter);
 
     return res != null;
+}
+
+/** Bans the user with bannedUserId from using the /workingon command. bannedByUserId is the userId of the user who did the ban. */
+export async function addBan(bannedUserId: string, bannedByUserId: string) {
+    if (!workingonBans)
+        throw new Error('Failed to connect to database.')
+
+    await workingonBans.insertOne({
+        bannedUserId: bannedUserId,
+        bannedByUserId: bannedByUserId
+    });
+}
+
+/** Unbans the user with bannedUserId from using the /workingon command. */
+export async function removeBan(userId: string) {
+    if (!workingonBans)
+        throw new Error('Failed to connect to database.')
+
+    const filter = { bannedUserId: userId };
+    await workingonBans.deleteOne(filter);
 }
