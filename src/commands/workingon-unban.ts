@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { addBan, isBanned, removeBan } from '../mongodb.js';
 
 const workingonUnbanCommand = {
@@ -8,8 +8,8 @@ const workingonUnbanCommand = {
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user who you want to unban')
-                .setRequired(true)
-        ),
+                .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
     async execute(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply();

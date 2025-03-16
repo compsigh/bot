@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { addBan, isBanned } from '../mongodb.js';
 
 const workingonBanCommand = {
@@ -8,8 +8,8 @@ const workingonBanCommand = {
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user who you want to ban')
-                .setRequired(true)
-        ),
+                .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
     async execute(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply();
