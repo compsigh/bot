@@ -20,7 +20,7 @@ const workingonCommand = {
         const userid = interaction.user.id;
         const usernick = interaction.member instanceof GuildMember && interaction.member.nickname
             ? (interaction.member.nickname)
-            : interaction.user.username;
+            : interaction.user.displayName;
         const projectName = interaction.options.getString('project');
 
         // Send data to the API to update the user's project
