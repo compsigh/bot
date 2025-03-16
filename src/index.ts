@@ -5,16 +5,18 @@ import { getCommand, registerGlobalCommands } from './commands.js';
 // Check for env variables
 const token = process.env.DISCORD_TOKEN;
 const appId = process.env.APP_ID;
-const testGuildId = process.env.TEST_GUILD_ID;
 if (!token)
     throw new Error('Missing env variable DISCORD_TOKEN');
 if (!appId)
     throw new Error('Missing env variable APP_ID');
-if (!testGuildId)
-    throw new Error('Missing env variable TEST_GUILD_ID');
 
 // Register commands
 await registerGlobalCommands(token, appId);
+
+// Whitelist
+const whitelistedGuilds = new Set<string>();
+whitelistedGuilds.add('849685154543960085');       // compsigh
+whitelistedGuilds.add('1307981513656369153');      // compsigh bot testing
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -24,16 +26,27 @@ client.once(Events.ClientReady, readyClient => {
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
+// On guild join
+client.on('guildCreate', guild => {
+    const guildId = guild.id;
+    console.log(`Joined guild ${guildId}`);
+    if (!whitelistedGuilds.has(guildId)) {
+        console.log(`Leaving guild ${guildId}; not in the whitelist.`);
+        guild.systemChannel?.send('The bot is not enabled for this guild. 👋');
+        guild.leave();
+    }
+});
+
 // On command interaction
 client.on(Events.InteractionCreate, async interaction => {
     // Ignore interactions that aren't slash commands
     if (!interaction.isChatInputCommand()) return;
 
-    // // Ignore interactions from guilds not in the whitelist
-    // const guildId = interaction.guildId;
-    // if (!guildId || !guildWhitelist.includes(guildId)) {
-    // 	return await interaction.reply({ content: `This bot is not enabled for this guild`, flags: MessageFlags.Ephemeral });
-    // }
+    // Ignore interactions from guilds not in the whitelist
+    const guildId = interaction.guildId;
+    if (!guildId || !whitelistedGuilds.has(guildId)) {
+        return await interaction.reply({ content: `This bot is not enabled for this guild`, ephemeral: true });
+    }
 
     // Get the command
     const command = getCommand(interaction.commandName);
