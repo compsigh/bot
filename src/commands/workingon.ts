@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, GuildMember, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, GuildMember, MessageFlags, SlashCommandBuilder } from 'discord.js';
 
 const API_URL = 'https://compsigh.club/api/marquee';
 
@@ -14,7 +14,7 @@ const workingonCommand = {
         ),
 
     async execute(interaction: ChatInputCommandInteraction) {
-        await interaction.deferReply();
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         // Get data from the interaction
         const userid = interaction.user.id;

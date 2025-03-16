@@ -1,17 +1,17 @@
 import 'dotenv/config';
-import { Client, Events, GatewayIntentBits } from 'discord.js';
-import { getCommand, registerGlobalCommands, registerGuildCommands } from './commands.js';
+import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
+import { getCommand, registerGlobalCommands } from './commands.js';
 
 // Check for env variables
 const token = process.env.DISCORD_TOKEN;
 const appId = process.env.APP_ID;
 const testGuildId = process.env.TEST_GUILD_ID;
 if (!token)
-    throw new Error("Missing env variable DISCORD_TOKEN");
+    throw new Error('Missing env variable DISCORD_TOKEN');
 if (!appId)
-    throw new Error("Missing env variable APP_ID");
+    throw new Error('Missing env variable APP_ID');
 if (!testGuildId)
-    throw new Error("Missing env variable TEST_GUILD_ID");
+    throw new Error('Missing env variable TEST_GUILD_ID');
 
 // Register commands
 await registerGlobalCommands(token, appId);
@@ -32,7 +32,7 @@ client.on(Events.InteractionCreate, async interaction => {
     // // Ignore interactions from guilds not in the whitelist
     // const guildId = interaction.guildId;
     // if (!guildId || !guildWhitelist.includes(guildId)) {
-    // 	return await interaction.reply({ content: `This bot is not enabled for this guild`, ephemeral: true });
+    // 	return await interaction.reply({ content: `This bot is not enabled for this guild`, flags: MessageFlags.Ephemeral });
     // }
 
     // Get the command
@@ -50,9 +50,9 @@ client.on(Events.InteractionCreate, async interaction => {
     } catch (error) {
         console.error(error);
         if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+            await interaction.followUp({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
         } else {
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+            await interaction.reply({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
         }
     }
 });
