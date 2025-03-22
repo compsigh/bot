@@ -3,6 +3,9 @@ import { isBanned } from '../mongodb.js';
 
 export const WORKINGON_API_URL = 'https://compsigh.club/api/marquee';
 
+const cooldown = new Map<string, number>();         // userIds that have used the command in the last minute
+const COOLDOWN_SECONDS = 60;
+
 const workingonCommand = {
     data: new SlashCommandBuilder()
         .setName('workingon')
@@ -35,6 +38,20 @@ const workingonCommand = {
             await interaction.editReply('Sorry, you are banned from using the `/workingon` command.');
             return;
         }
+
+        // Make sure the user isn't on cooldown
+        const lastUsed = cooldown.get(userid);
+        if (lastUsed) {
+            const timeLeftMs = lastUsed + (COOLDOWN_SECONDS * 1000) - Date.now();
+            await interaction.editReply(`You are on cooldown. Please wait ${Math.floor(timeLeftMs / 1000)} seconds before using this command again.`);
+            return;
+        }
+
+        // Add the user to the cooldown set
+        cooldown.set(userid, Date.now());
+        setTimeout(() => {
+            cooldown.delete(userid);
+        }, COOLDOWN_SECONDS * 1000);
 
         // Send data to the API to update the user's project
         const response = await fetch(WORKINGON_API_URL, {
