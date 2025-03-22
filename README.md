@@ -1,21 +1,25 @@
 # Compsigh Bot
 
-Compsigh Bot is a Discord bot for the [compsigh](https://compsigh.club/) discord server. This bot is built using Discord.js and TypeScript.
+Discord bot for [compsigh](https://compsigh.club/), the social computer science club at the University of San Francisco.
+
+This bot is built using Discord.js and TypeScript. Deployed using [Railway](http://railway.com/).
 
 ## Table of Contents
 
-- [Compsigh Bot](#compsigh-bot)
-  - [Table of Contents](#table-of-contents)
-  - [Features](#features)
-  - [Contributing](#contributing)
-    - [Getting Setup](#getting-setup)
-    - [Adding Commands](#adding-commands)
+- [Commands](#commands)
+- [Contributing](#contributing)
+  - [Getting Setup](#getting-setup)
+  - [Adding Commands](#adding-commands)
 
-## Features
+## Commands
 
 - **/ping**: Replies with "Pong!".
 - **/petfaadil**: Pets Faadil and returns a random image of him.
-- **/workingon**: Sets the project that you are working on to be displayed on the compsigh website's community page.
+- **/workingon**: Sets the project that you are working on to be displayed on the [compsigh website's community page](https://compsigh.club/community).
+- Leadership Only
+  - **/workingon-ban**: Bans the user from using the /workingon command.
+  - **/workingon-remove**: Removes the /workingon entry made by the user.
+  - **/workingon-unban**: Unbans the user from using the /workingon command.
 
 ## Contributing
 
@@ -51,6 +55,5 @@ Contributions welcome! Feel free to make issues or pull requests. If you want to
 To add more commands, follow these steps:
 
 1. Create a new file in the `src/commands` directory, e.g., `newcommand.ts`.
-2. Define your command using the [`SlashCommandBuilder`](https://discord.js.org/docs/packages/discord.js/14.18.0/SlashCommandBuilder:Class) and implement the `execute` function. The ping is a good example to get started.<br>
-See also: https://discordjs.guide/creating-your-bot/slash-commands.html#individual-command-files
-3. Import and add your command to the `commands` array in `src/commands.ts`.
+2. Define your command using the [`SlashCommandBuilder`](https://discord.js.org/docs/packages/discord.js/14.18.0/SlashCommandBuilder:Class) and implement the `execute` function. The ping is a good example to get started. The discord.js guide may also be useful, see: https://discordjs.guide/creating-your-bot/slash-commands.html#individual-command-files
+3. In `src/commands.ts`, import your command and add it to the `commands` array.
