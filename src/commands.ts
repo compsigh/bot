@@ -3,6 +3,7 @@ import pingCommand from './commands/ping.js'
 import petfaadilCommand from './commands/petfaadil.js';
 import workingonCommand from './commands/workingon.js';
 import workingonBanCommand from './commands/workingon-ban.js';
+import workingonRemoveCommand from './commands/workingon-remove.js';
 import workingonUnbanCommand from './commands/workingon-unban.js';
 
 export type Command = {
@@ -11,7 +12,7 @@ export type Command = {
 }
 
 // Commands in basic array
-export const commands = [pingCommand, petfaadilCommand, workingonCommand, workingonBanCommand, workingonUnbanCommand];
+export const commands = [pingCommand, petfaadilCommand, workingonCommand, workingonBanCommand, workingonRemoveCommand, workingonUnbanCommand];
 
 // Commands in a map from command name -> Command
 const nameToCommandMap = new Map<string, Command>();
