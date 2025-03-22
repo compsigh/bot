@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, GuildMember, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { isBanned } from '../mongodb.js';
 
-const API_URL = 'https://compsigh.club/api/marquee';
+export const WORKINGON_API_URL = 'https://compsigh.club/api/marquee';
 
 const workingonCommand = {
     data: new SlashCommandBuilder()
@@ -23,8 +24,20 @@ const workingonCommand = {
             : interaction.user.displayName;
         const projectName = interaction.options.getString('project');
 
+        if (!projectName) {
+            await interaction.editReply(`Something went wrong`);
+            console.error(`Project name is null. \`/workingon\` userid:${userid} usernick:${usernick}`);
+            return;
+        }
+
+        // Make sure the user isn't banned
+        if (await isBanned(userid)) {
+            await interaction.editReply('Sorry, you are banned from using the `/workingon` command.');
+            return;
+        }
+
         // Send data to the API to update the user's project
-        const response = await fetch(API_URL, {
+        const response = await fetch(WORKINGON_API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
