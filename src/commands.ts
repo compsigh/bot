@@ -5,6 +5,7 @@ import workingonCommand from './commands/workingon.js';
 import workingonBanCommand from './commands/workingon-ban.js';
 import workingonRemoveCommand from './commands/workingon-remove.js';
 import workingonUnbanCommand from './commands/workingon-unban.js';
+import contribs from './commands/contribs.js';
 
 export type Command = {
     data: SlashCommandOptionsOnlyBuilder;
@@ -12,7 +13,7 @@ export type Command = {
 }
 
 // Commands in basic array
-export const commands = [pingCommand, petfaadilCommand, workingonCommand, workingonBanCommand, workingonRemoveCommand, workingonUnbanCommand];
+export const commands = [pingCommand, petfaadilCommand, workingonCommand, workingonBanCommand, workingonRemoveCommand, workingonUnbanCommand, contribs];
 
 // Commands in a map from command name -> Command
 const nameToCommandMap = new Map<string, Command>();

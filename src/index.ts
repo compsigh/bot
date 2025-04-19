@@ -11,7 +11,7 @@ if (!token)
 const applicationId = '1307982573066125354';
 await registerGlobalCommands(token, applicationId);
 
-// Whitelist
+// Guild Whitelist
 const whitelistedGuilds = new Set<string>();
 whitelistedGuilds.add('849685154543960085');       // compsigh
 whitelistedGuilds.add('1307981513656369153');      // compsigh bot testing
@@ -43,7 +43,7 @@ client.on(Events.InteractionCreate, async interaction => {
     // Ignore interactions from guilds not in the whitelist
     const guildId = interaction.guildId;
     if (!guildId || !whitelistedGuilds.has(guildId)) {
-        return await interaction.reply({ content: `This bot is not enabled for this guild`, ephemeral: true });
+        return await interaction.reply({ content: `This bot is not enabled for this guild`, flags: MessageFlags.Ephemeral });
     }
 
     // Get the command
