@@ -75,15 +75,20 @@ async function makeContributionGraph(username: string): Promise<string | null> {
         return null;
     }
 
+    // Relevant Docs: https://docs.github.com/en/graphql/reference/objects#contributioncalendar
+
     const contributionCalendar = data.user.contributionsCollection.contributionCalendar;
     const contributionCalendarWeeks = contributionCalendar.weeks;
     const selectedWeeks = contributionCalendarWeeks.slice(-NUM_SELECTED_WEEKS);     // Select the last NUM_SELECTED_WEEKS weeks
     let contribGraph = '';
 
     // Build the graph using emojis
-    for (const week of selectedWeeks) {
-        for (const contributionDay of week.contributionDays) {
-            contribGraph += getEmojiByFrequency(contributionDay.contributionCount);
+    outerloop:
+    for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+        for (const week of selectedWeeks) {
+            if (dayOfWeek >= week.contributionDays.length)
+                break outerloop;   // finish if the week doesn't have enough days (for example, if the week starts on Sunday and current day is Tuesday, it won't have 7 days)
+            contribGraph += getEmojiByFrequency(week.contributionDays[dayOfWeek].contributionCount);
         }
         contribGraph += '\n';
     }
@@ -108,8 +113,6 @@ const contribsCommand = {
      */
     async execute(interaction: ChatInputCommandInteraction) {
         const githubUsername = interaction.options.getString('github_username');
-
-        // Validate the GitHub username
         if (!githubUsername) {
             await interaction.reply('Please provide a GitHub username.');
             return;
