@@ -13,22 +13,18 @@ async function getContributionData(githubUsername: string) {
         'Authorization': `bearer ${process.env.GITHUB_TOKEN}`,
     };
 
+    // Relevant Docs: https://docs.github.com/en/graphql/guides/forming-calls-with-graphql#about-queries
+
     const body = {
         query: `query {
             user(login: "${githubUsername}") {
-              name
               contributionsCollection {
                 contributionCalendar {
-                  colors
                   totalContributions
                   weeks {
                     contributionDays {
-                      color
                       contributionCount
-                      date
-                      weekday
                     }
-                    firstDay
                   }
                 }
               }
