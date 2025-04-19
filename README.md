@@ -15,6 +15,7 @@ This bot is built using Discord.js and TypeScript. Deployed using [Railway](http
 
 - **/ping**: Replies with "Pong!".
 - **/petfaadil**: Pets Faadil and returns a random image of him.
+- **/contribs**: Replies with the contribution graph for the given GitHub account.
 - **/workingon**: Sets the project that you are working on to be displayed on the [compsigh website's community page](https://compsigh.club/community).
 - Leadership Only
   - **/workingon-ban**: Bans the user from using the /workingon command.
@@ -29,9 +30,9 @@ Contributions welcome! Feel free to make issues or pull requests. If you want to
 
 1. Fork the repo and clone.
 
-2. Install dependencies:
+2. Install dependencies (install pnpm first if you don't have it):
     ```sh
-    npm install
+    pnpm install
     ```
 
 3. Create a `.env` file in the root directory with your own variables:
@@ -39,6 +40,7 @@ Contributions welcome! Feel free to make issues or pull requests. If you want to
     DISCORD_TOKEN=""
     MONGO_URI=""
     MARQUEE_API_KEY=""
+    GITHUB_TOKEN=""
     ```
 
 4. Make a testing server with your version of the bot.
@@ -47,7 +49,7 @@ Contributions welcome! Feel free to make issues or pull requests. If you want to
 
 6. Run the bot
     ```sh
-    npm run dev
+    pnpm run dev
     ```
 
 ### Adding Commands
