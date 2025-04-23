@@ -82,9 +82,8 @@ async function makeContributionGraph(username: string): Promise<string | null> {
     // Each row represents a day of the week (Sunday to Saturday), each column represents a week
     for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
         for (const week of selectedWeeks) {
-            if (dayOfWeek >= week.contributionDays.length)
-                break;   // finish if the week doesn't have enough days (for example, if the week starts on Sunday and current day is Tuesday, it won't have 7 days)
-            contribGraph += getEmojiByFrequency(week.contributionDays[dayOfWeek].contributionCount);
+            if (dayOfWeek < week.contributionDays.length)
+                contribGraph += getEmojiByFrequency(week.contributionDays[dayOfWeek].contributionCount);
         }
         contribGraph += '\n';
     }
