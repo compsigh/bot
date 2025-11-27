@@ -6,12 +6,10 @@ const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID
 if (!DISCORD_CLIENT_ID)
   throw new Error("Missing DISCORD_CLIENT_ID environment variable!")
 
-const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET
-if (!DISCORD_CLIENT_SECRET)
-  throw new Error("Missing DISCORD_CLIENT_SECRET environment variable!")
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
+if (!DISCORD_BOT_TOKEN)
+  throw new Error("Missing DISCORD_BOT_TOKEN environment variable!")
 
-// Register commands
-await registerGlobalCommands(DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET)
 
 // Guild Whitelist
 const whitelistedGuilds = new Set<string>()
@@ -79,4 +77,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 })
 
-client.login(DISCORD_CLIENT_SECRET)
+client.login(DISCORD_BOT_TOKEN)
