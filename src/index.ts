@@ -1,22 +1,29 @@
 import "dotenv/config"
 import { Client, Events, GatewayIntentBits, MessageFlags } from "discord.js"
-import { getCommand, registerGlobalCommands } from "./commands.js"
+import { getCommand, registerGuildCommands } from "./commands.js"
 
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID
 if (!DISCORD_CLIENT_ID)
   throw new Error("Missing DISCORD_CLIENT_ID environment variable!")
 
-const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET
-if (!DISCORD_CLIENT_SECRET)
-  throw new Error("Missing DISCORD_CLIENT_SECRET environment variable!")
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
+if (!DISCORD_BOT_TOKEN)
+  throw new Error("Missing DISCORD_BOT_TOKEN environment variable!")
 
-// Register commands
-await registerGlobalCommands(DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET)
+const DEV_SERVER_IDS = process.env.DEV_SERVER_IDS
+if (!DEV_SERVER_IDS)
+  console.warn(
+    "Missing DEV_SERVER_IDS environment variable; won't register guild commands!"
+  )
 
-// Guild Whitelist
 const whitelistedGuilds = new Set<string>()
-whitelistedGuilds.add("849685154543960085") // compsigh
-whitelistedGuilds.add("1307981513656369153") // compsigh bot testing
+if (DEV_SERVER_IDS) {
+  const serverIds = DEV_SERVER_IDS.split(", ")
+  for (const serverId of serverIds) whitelistedGuilds.add(serverId)
+}
+
+for (const serverId of whitelistedGuilds)
+  await registerGuildCommands(DISCORD_CLIENT_ID, DISCORD_BOT_TOKEN, serverId)
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
@@ -79,4 +86,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 })
 
-client.login(DISCORD_CLIENT_SECRET)
+client.login(DISCORD_BOT_TOKEN)

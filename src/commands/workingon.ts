@@ -6,7 +6,10 @@ import {
 } from "discord.js"
 import { isBanned } from "../mongodb.js"
 
-export const WORKINGON_API_URL = "https://compsigh.club/api/marquee"
+export const WORKINGON_API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://compsigh.club/api/marquee"
+    : "http://localhost:3000/api/marquee"
 
 const cooldown = new Map<string, number>() // userIds that have used the command in the last minute
 const COOLDOWN_SECONDS = 60

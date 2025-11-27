@@ -44,7 +44,7 @@ export function getCommand(name: string) {
   return nameToCommandMap.get(name)
 }
 
-export async function registerGlobalCommands(token: string, clientId: string) {
+export async function registerGlobalCommands(clientId: string, token: string) {
   // Construct and prepare an instance of the REST module
   const rest = new REST().setToken(token)
 
@@ -67,8 +67,8 @@ export async function registerGlobalCommands(token: string, clientId: string) {
 }
 
 export async function registerGuildCommands(
-  token: string,
   clientId: string,
+  token: string,
   guildId: string
 ) {
   // Construct and prepare an instance of the REST module
