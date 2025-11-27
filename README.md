@@ -37,10 +37,11 @@ Contributions welcome! Feel free to make issues or pull requests. If you want to
 
 3. Create a `.env` file in the root directory with your own variables:
     ```env
-    DISCORD_TOKEN=""
-    GITHUB_TOKEN=""
-    MARQUEE_API_KEY=""
-    MONGO_URI=""
+    DISCORD_CLIENT_ID = ""
+    DISCORD_CLIENT_SECRET = ""
+    GITHUB_TOKEN = ""
+    MARQUEE_API_KEY = ""
+    MONGO_URI = ""
     ```
 
 4. Make a testing server with your version of the bot.
