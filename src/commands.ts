@@ -67,8 +67,8 @@ export async function registerGlobalCommands(clientId: string, token: string) {
 }
 
 export async function registerGuildCommands(
-  token: string,
   clientId: string,
+  token: string,
   guildId: string
 ) {
   // Construct and prepare an instance of the REST module
