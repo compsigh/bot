@@ -2,13 +2,16 @@ import "dotenv/config"
 import { Client, Events, GatewayIntentBits, MessageFlags } from "discord.js"
 import { getCommand, registerGlobalCommands } from "./commands.js"
 
-// Check for env variables
-const token = process.env.DISCORD_TOKEN
-if (!token) throw new Error("Missing env variable DISCORD_TOKEN")
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID
+if (!DISCORD_CLIENT_ID)
+  throw new Error("Missing DISCORD_CLIENT_ID environment variable!")
+
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET
+if (!DISCORD_CLIENT_SECRET)
+  throw new Error("Missing DISCORD_CLIENT_SECRET environment variable!")
 
 // Register commands
-const applicationId = "1307982573066125354"
-await registerGlobalCommands(token, applicationId)
+await registerGlobalCommands(DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET)
 
 // Guild Whitelist
 const whitelistedGuilds = new Set<string>()
@@ -76,5 +79,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 })
 
-// Log in to Discord with token
-client.login(process.env.DISCORD_TOKEN)
+client.login(DISCORD_CLIENT_SECRET)
